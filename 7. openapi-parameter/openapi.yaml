@@ -1,0 +1,62 @@
+openapi: 3.0.3
+info:
+  title: OpenAPI Learning
+  description: OpenAPI for Learning
+  version: '1'
+  contact:
+    name: Alfaelias Waristino Simanjuntak
+    email: alfaeliaswaristino@gmail.com
+    url: alfaelias.netlify.app
+  license:
+    name: APACHE 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+  - url: https://{environment}.programmerzamannow.com/api/v1
+    description: API Server
+    variables:
+      environment:
+        default: dev
+        description: Server Environment
+        enum:
+          - dev
+          - qa
+          - prod
+externalDocs:
+  description: Obsidian OpenAPI Learning
+  url: github
+paths:
+  /todolist:
+    get:
+      summary: Get All Todolist
+      description: Return active todolist, completed or deleted todolist will not be shown
+      responses: {}
+      parameters:
+        - name: include done
+          description: include done todo list in the result
+          in: query
+        - name: name
+          description: search todolist by name
+          in: query
+    post:
+      summary: Create new Todolist
+      description: Creating new empty todolist
+      responses: {}
+  /todolist/{todolistId}:
+    put:
+      summary: Update Existing Todolist
+      description: Update todolist that is active or empty
+      responses: {}
+      parameters:
+        - name: todolistId
+          required: true
+          description: which todolist (by id) that will be updated
+          in: path
+    delete:
+      summary: Delete Existing Todolist
+      description: Delete todolist from database
+      responses: {}
+      parameters:
+        - name: todolistId
+          required: true
+          description: which todolist (by id) that will be deleted
+          in: path

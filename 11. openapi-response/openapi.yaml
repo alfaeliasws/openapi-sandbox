@@ -1,0 +1,312 @@
+openapi: 3.0.3
+info:
+  title: OpenAPI Learning
+  description: OpenAPI for Learning
+  version: '1'
+  contact:
+    name: Alfaelias Waristino Simanjuntak
+    email: alfaeliaswaristino@gmail.com
+    url: alfaelias.netlify.app
+  license:
+    name: APACHE 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+  - url: https://{environment}.programmerzamannow.com/api/v1
+    description: API Server
+    variables:
+      environment:
+        default: dev
+        description: Server Environment
+        enum:
+          - dev
+          - qa
+          - prod
+externalDocs:
+  description: Obsidian OpenAPI Learning
+  url: github
+paths:
+  /todolist:
+    get:
+      tags:
+        - Todolist
+      summary: Get All Todolist
+      description: Return active todolist, completed or deleted todolist will not be shown
+      responses:
+        '200':
+          description: Get Todolist Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: todolistId
+                    name:
+                      type: string
+                    priority:
+                      type: number
+                      format: int32
+                    tags:
+                      type: array
+                      items:
+                        type: string
+              examples:
+                success:
+                  description: Example Success Get All Todolist
+                  value:
+                    - id: 1
+                      name: openAPI
+                      priority: 3
+                      tags:
+                        - yaml
+                        - Programming
+                    - id: 2
+                      name: openAPI-JSON
+                      priority: 1
+                      tags:
+                        - json
+                        - Programming
+      parameters:
+        - name: include done
+          description: include done todo list in the result
+          in: query
+          schema:
+            type: boolean
+            default: true
+            nullable: true
+        - name: name
+          description: search todolist by name
+          in: query
+          schema:
+            type: string
+            nullable: false
+            maxLength: 100
+            minLength: 1
+          examples:
+            java:
+              description: example name Java
+              value: Java
+            php:
+              description: example name PHP
+              value: PHP
+    post:
+      tags:
+        - Todolist
+      summary: Create new Todolist
+      description: Creating new empty todolist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                priority:
+                  type: integer
+                  format: int32
+                  default: 1
+                tags:
+                  type: array
+                  minItems: 1
+                  items:
+                    type: string
+                    minLength: 1
+            examples:
+              java:
+                description: Example To Do List Java
+                value:
+                  name: Java
+                  priority: 3
+                  tags:
+                    - Java
+                    - Programming
+              PHP:
+                description: Example To Do List PHP
+                value:
+                  name: PHP
+                  priority: 3
+                  tags:
+                    - PHP
+                    - Programming
+      responses:
+        '200':
+          description: Success Create New Item
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: todolistId
+                  name:
+                    type: string
+                  priority:
+                    type: number
+                    format: int32
+                  tags:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                openAPI:
+                  description: Success Create openAPI Todolist
+                  value:
+                    id: 1
+                    name: openAPI
+                    priority: 3
+                    tags:
+                      - yaml
+                      - Programming
+                openAPIJSON:
+                  description: Success Create openAPIJSON Todolist
+                  value:
+                    id: 1
+                    name: openAPIJSON
+                    priority: 3
+                    tags:
+                      - json
+                      - Programming
+  /todolist/{todolistId}:
+    put:
+      tags:
+        - Todolist
+      summary: Update Existing Todolist
+      description: Update todolist that is active or empty
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                priority:
+                  type: integer
+                  format: int32
+                  default: 1
+                tags:
+                  type: array
+                  minItems: 1
+                  items:
+                    type: string
+                    minLength: 1
+            examples:
+              java:
+                description: Example To Do List Java
+                value:
+                  name: Java
+                  priority: 3
+                  tags:
+                    - Java
+                    - Programming
+              PHP:
+                description: Example To Do List PHP
+                value:
+                  name: PHP
+                  priority: 3
+                  tags:
+                    - PHP
+                    - Programming
+      responses:
+        '200':
+          description: Success Update New Item
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: todolistId
+                  name:
+                    type: string
+                  priority:
+                    type: number
+                    format: int32
+                  tags:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                openAPI:
+                  description: Success Update openAPI Todolist
+                  value:
+                    id: 1
+                    name: openAPI
+                    priority: 3
+                    tags:
+                      - yaml
+                      - Programming
+                openAPIJSON:
+                  description: Success Update openAPIJSON Todolist
+                  value:
+                    id: 1
+                    name: openAPIJSON
+                    priority: 3
+                    tags:
+                      - json
+                      - Programming
+      parameters:
+        - name: todolistId
+          required: true
+          description: which todolist (by id) that will be updated
+          in: path
+          schema:
+            type: string
+          examples:
+            java:
+              description: Sample todolistId for Java
+              value: '1'
+            javascript:
+              description: Sample todolistId for Javascript
+              value: '2'
+    delete:
+      tags:
+        - Todolist
+      summary: Delete Existing Todolist
+      description: Delete todolist from database
+      responses:
+        '200':
+          description: Success delete todolist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+              example:
+                success:
+                  description: Success delete todolist
+                  value:
+                    success: true
+        '404':
+          description: Failed delete todolist case not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+              example:
+                success:
+                  description: Failed delete todolist
+                  value:
+                    success: false
+      parameters:
+        - name: todolistId
+          required: true
+          description: which todolist (by id) that will be deleted
+          in: path
+          schema:
+            type: string

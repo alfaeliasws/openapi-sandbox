@@ -1,0 +1,33 @@
+openapi: 3.0.3
+info:
+  title: OpenAPI Learning
+  description: OpenAPI for Learning
+  version: '1'
+  contact:
+    name: Alfaelias Waristino Simanjuntak
+    email: alfaeliaswaristino@gmail.com
+    url: alfaelias.netlify.app
+  license:
+    name: APACHE 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+  - url: https://{environment}.programmerzamannow.com/api/v1
+    description: API Server
+    variables:
+      environment:
+        default: dev
+        description: Server Environment
+        enum:
+          - dev
+          - qa
+          - prod
+externalDocs:
+  description: Obsidian OpenAPI Learning
+  url: github
+paths:
+  /todolist:
+    get: {}
+    post: {}
+  /todolist/{todolistId}:
+    delete: {}
+    put: {}
